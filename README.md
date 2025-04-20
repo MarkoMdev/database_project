@@ -42,11 +42,11 @@ Données publiques issues de [data.gouv.fr](https://www.data.gouv.fr/fr/datasets
 
 ## 📁 Structure du projet
 
-transport-data-etl/ 
-├── dags/ # Pipelines Airflow 
-├── data/ # Données brutes / clean 
-├── db/ # Schéma PostgreSQL 
-├── superset/ # Dashboards 
-├── docker-compose.yml 
-├── README.md 
-└── requirements.txt
+transport-data-etl/  
+├── dags/ # Pipelines Airflow  
+├── data/ # Données brutes / clean  
+├── db/ # Schéma PostgreSQL  
+├── superset/ # Dashboards  
+├── docker-compose.yml  
+├── README.md  
+└── requirements.txt 
