@@ -15,7 +15,7 @@ Ce projet a pour objectif de mettre en place une pipeline ETL (Extract - Transfo
 
 ## 📊 Dataset utilisé
 
-Données publiques issues de [data.gouv.fr]([https://data.sncf.com/explore/dataset/regularite-mensuelle-intercites/information/])
+Données publiques issues de [data.gouv.fr](https://data.sncf.com/explore/dataset/regularite-mensuelle-intercites/information/)
 
 - Format : CSV
 - Données mensuelles de ponctualité des trains (TER, Intercités, Transilien)
