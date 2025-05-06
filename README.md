@@ -78,5 +78,3 @@ docker-compose up -d
 ## ✍️ Auteur
 
 Marko Macanovic
-
-Projet réalisé dans le cadre d'une formation Data Engineer – 2025
