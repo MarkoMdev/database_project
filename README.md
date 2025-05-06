@@ -1,52 +1,82 @@
-# 🚆 Transport Data ETL Project
+# 🚆 ETL Transport Intercités – Data Engineering Project
 
-Ce projet a pour objectif de mettre en place une pipeline ETL (Extract - Transform - Load) pour analyser les données de ponctualité des trains en France à l'aide d'outils de data engineering open source.
-
----
-
-## 🧰 Stack technique
-
-- **PostgreSQL** : stockage relationnel des données
-- **Apache Airflow** : orchestration des pipelines ETL
-- **Apache Superset** : exploration et visualisation des données
-- **Python (pandas)** : transformation des données
+Ce projet met en œuvre un pipeline ETL complet pour collecter, transformer et charger des données de régularité des trains Intercités (SNCF), en s'appuyant sur une stack open source professionnelle.
 
 ---
 
-## 📊 Dataset utilisé
+## 🛠️ Stack utilisée
 
-Données publiques issues de [data.gouv.fr](https://data.sncf.com/explore/dataset/regularite-mensuelle-intercites/information/)
-
-- Format : CSV
-- Données mensuelles de ponctualité des trains (TER, Intercités, Transilien)
-- Contient : nombre de trains, taux de ponctualité, causes de retard...
-
----
-
-## 🔁 Étapes du pipeline
-
-1. **Extraction** : Téléchargement des données depuis data.gouv.fr
-2. **Transformation** : Nettoyage et formatage avec pandas
-3. **Chargement** : Insertion dans une base PostgreSQL
-4. **Visualisation** : Dashboard interactif via Apache Superset
+* **PostgreSQL** : stockage relationnel des données
+* **Apache Airflow** : orchestration des étapes ETL
+* **Docker Compose** : environnement de développement reproductible
+* **Python (pandas, SQLAlchemy)** : transformation et chargement des données
 
 ---
 
-## 🚀 À venir
+## 📊 Source des données
 
-- Ajout de données météo (OpenWeatherMap)
-- Intégration avec dbt pour modélisation analytique
-- Déploiement complet avec Docker Compose
+* Données issues du portail officiel SNCF :
+  [https://data.sncf.com/explore/dataset/regularite-mensuelle-intercites](https://data.sncf.com/explore/dataset/regularite-mensuelle-intercites)
+* Format : CSV mensuel
+* Données depuis janvier 2014
 
 ---
 
-## 📁 Structure du projet
+## 🗂️ Structure du projet
 
-transport-data-etl/  
-├── dags/ # Pipelines Airflow  
-├── data/ # Données brutes / clean  
-├── db/ # Schéma PostgreSQL  
-├── superset/ # Dashboards  
-├── docker-compose.yml  
-├── README.md  
-└── requirements.txt 
+```
+.
+├── dags/               # DAG Airflow (etl_transport.py)
+├── etl/                # Scripts extract / transform / load
+├── db/                 # Schéma SQL
+├── data/               # Fichiers CSV et Parquet
+├── docker-compose.yml
+├── requirements.txt
+└── README.md
+```
+
+---
+
+## ⚙️ Lancer le projet en local
+
+### 1. Démarrer l’environnement
+
+```bash
+docker-compose up -d
+```
+
+### 2. Accéder à Airflow
+
+* Interface : [http://localhost:8080](http://localhost:8080)
+* Identifiant : `admin` / Mot de passe : `admin`
+
+### 3. Lancer le pipeline
+
+* Activer le DAG `etl_transport_data`
+* Cliquer sur "Trigger DAG"
+* Suivre l'exécution dans les logs (extract → transform → load)
+
+---
+
+## 💡 Fonctions principales
+
+* `download_transport_data(url, path)` : télécharge le fichier CSV brut
+* `clean_transport_data(csv_path)` : nettoie les données, calcule les ratios
+* `load_dataframe_to_postgres(df, db_url, schema_path)` : charge dans PostgreSQL
+* Le DAG appelle ces fonctions via Airflow, avec passage des données par fichier `.parquet`
+
+---
+
+## 📌 À venir
+
+* 🔄 Intégration de données météo pour analyse croisée
+* 📊 Ajout d’Apache Superset pour visualiser les retards
+* 🔁 Déploiement continu avec Airflow + cron
+
+---
+
+## ✍️ Auteur
+
+Marko Macanovic
+
+Projet réalisé dans le cadre d'une formation Data Engineer – 2025

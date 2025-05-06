@@ -19,5 +19,28 @@ services:
       timeout: 5s
       retries: 5
 
+  airflow:
+    image: apache/airflow:2.9.1-python3.10
+    container_name: airflow
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+      AIRFLOW__CORE__FERNET_KEY: ''
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'false'
+      AIRFLOW__CORE__DAG_DISCOVERY_SAFE_MODE: 'false'
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./etl:/opt/airflow/etl
+      - ./db:/opt/airflow/db
+      - ./data:/opt/airflow/data
+    ports:
+      - "8080:8080"
+    command: bash -c "airflow db upgrade && airflow users create --username admin --password admin --firstname Air --lastname Flow --role Admin --email admin@example.com && airflow scheduler & airflow webserver"
+
 volumes:
   pgdata:
