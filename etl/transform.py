@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 def clean_transport_data(csv_path: str) -> pd.DataFrame:
     """
@@ -51,11 +52,9 @@ def clean_transport_data(csv_path: str) -> pd.DataFrame:
     ).round(3)
 
     # Nettoyage des valeurs infinies et NaN
-    df["ratio_recalc_trains_a_lheure_par_retard"].replace(
-        [float("inf"), -float("inf")], None, inplace=True
-    )
-    df["ratio_recalc_trains_a_lheure_par_retard"].fillna(0, inplace=True)
-
+    col = "ratio_recalc_trains_a_lheure_par_retard"
+    df[col] = df[col].replace([float("inf"), -float("inf")], np.nan)
+    df[col] = df[col].astype("float64").fillna(0)
     return df
 
 
